@@ -1,0 +1,223 @@
+<div class="register-container">
+      <div class="register-card">
+        <div class="register-header">
+          <div class="parking-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#00A8E8"/>
+            </svg>
+          </div>
+          <h1 class="register-title">ParkingSystem</h1>
+          <p class="register-subtitle">Crea tu cuenta</p>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName" class="form-label">Nombre</label>
+              <input 
+                id="firstName"
+                type="text" 
+                formControlName="firstName"
+                class="form-input"
+                [class.error]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                placeholder="Tu nombre"
+              >
+              <div class="error-message" *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+                <span *ngIf="registerForm.get('firstName')?.errors?.['required']">El nombre es requerido</span>
+                <span *ngIf="registerForm.get('firstName')?.errors?.['minlength']">Mínimo 2 caracteres</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName" class="form-label">Apellido</label>
+              <input 
+                id="lastName"
+                type="text" 
+                formControlName="lastName"
+                class="form-input"
+                [class.error]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                placeholder="Tu apellido"
+              >
+              <div class="error-message" *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+                <span *ngIf="registerForm.get('lastName')?.errors?.['required']">El apellido es requerido</span>
+                <span *ngIf="registerForm.get('lastName')?.errors?.['minlength']">Mínimo 2 caracteres</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input 
+              id="email"
+              type="email" 
+              formControlName="email"
+              class="form-input"
+              [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+              placeholder="usuario@ejemplo.com"
+            >
+            <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+              <span *ngIf="registerForm.get('email')?.errors?.['required']">El email es requerido</span>
+              <span *ngIf="registerForm.get('email')?.errors?.['email']">Ingresa un email válido</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label">Teléfono</label>
+            <input 
+              id="phone"
+              type="tel" 
+              formControlName="phone"
+              class="form-input"
+              [class.error]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched"
+              placeholder="+52 123 456 7890"
+            >
+            <div class="error-message" *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+              <span *ngIf="registerForm.get('phone')?.errors?.['required']">El teléfono es requerido</span>
+              <span *ngIf="registerForm.get('phone')?.errors?.['pattern']">Formato de teléfono inválido</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="vehicleType" class="form-label">Tipo de Vehículo</label>
+            <select 
+              id="vehicleType"
+              formControlName="vehicleType"
+              class="form-select"
+              [class.error]="registerForm.get('vehicleType')?.invalid && registerForm.get('vehicleType')?.touched"
+            >
+              <option value="">Selecciona tu vehículo</option>
+              <option value="auto">🚗 Automóvil</option>
+              <option value="suv">🚙 SUV</option>
+              <option value="pickup">🛻 Pickup</option>
+              <option value="moto">🏍️ Motocicleta</option>
+              <option value="van">🚐 Van</option>
+            </select>
+            <div class="error-message" *ngIf="registerForm.get('vehicleType')?.invalid && registerForm.get('vehicleType')?.touched">
+              <span *ngIf="registerForm.get('vehicleType')?.errors?.['required']">Selecciona un tipo de vehículo</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="licensePlate" class="form-label">Placa del Vehículo</label>
+            <input 
+              id="licensePlate"
+              type="text" 
+              formControlName="licensePlate"
+              class="form-input"
+              [class.error]="registerForm.get('licensePlate')?.invalid && registerForm.get('licensePlate')?.touched"
+              placeholder="ABC-123-DEF"
+              style="text-transform: uppercase;"
+            >
+            <div class="error-message" *ngIf="registerForm.get('licensePlate')?.invalid && registerForm.get('licensePlate')?.touched">
+              <span *ngIf="registerForm.get('licensePlate')?.errors?.['required']">La placa es requerida</span>
+              <span *ngIf="registerForm.get('licensePlate')?.errors?.['pattern']">Formato de placa inválido</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password" class="form-label">Contraseña</label>
+              <div class="password-container">
+                <input 
+                  id="password"
+                  [type]="showPassword ? 'text' : 'password'" 
+                  formControlName="password"
+                  class="form-input"
+                  [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                  placeholder="••••••••"
+                >
+                <button 
+                  type="button" 
+                  class="password-toggle"
+                  (click)="togglePassword()"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path *ngIf="!showPassword" d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <circle *ngIf="!showPassword" cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path *ngIf="showPassword" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <line *ngIf="showPassword" x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="password-strength">
+                <div class="strength-indicator" [ngClass]="passwordStrength.class">
+                  <div class="strength-bar" [style.width.%]="passwordStrength.percentage"></div>
+                </div>
+                <span class="strength-text">{{ passwordStrength.text }}</span>
+              </div>
+              <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 8 caracteres</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Debe contener mayúscula, minúscula y número</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+              <div class="password-container">
+                <input 
+                  id="confirmPassword"
+                  [type]="showConfirmPassword ? 'text' : 'password'" 
+                  formControlName="confirmPassword"
+                  class="form-input"
+                  [class.error]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+                  placeholder="••••••••"
+                >
+                <button 
+                  type="button" 
+                  class="password-toggle"
+                  (click)="toggleConfirmPassword()"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path *ngIf="!showConfirmPassword" d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <circle *ngIf="!showConfirmPassword" cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path *ngIf="showConfirmPassword" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <line *ngIf="showConfirmPassword" x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="error-message" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirma tu contraseña</span>
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">Las contraseñas no coinciden</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="acceptTerms">
+              <span class="checkmark"></span>
+              Acepto los <a href="#" class="terms-link"> términos y condiciones</a> y la <a href="#" class="terms-link"> política de privacidad</a>
+            </label>
+            <div class="error-message" *ngIf="registerForm.get('acceptTerms')?.invalid && registerForm.get('acceptTerms')?.touched">
+              <span *ngIf="registerForm.get('acceptTerms')?.errors?.['required']">Debes aceptar los términos</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="receiveEmails">
+              <span class="checkmark"></span>
+              Quiero recibir notificaciones por email sobre mi cuenta
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            class="register-button"
+            [disabled]="registerForm.invalid || isLoading"
+          >
+            <span *ngIf="!isLoading">Crear Cuenta</span>
+            <span *ngIf="isLoading" class="loading-spinner"></span>
+          </button>
+
+          <div class="alert-message" *ngIf="alertMessage" [ngClass]="alertType">
+            {{ alertMessage }}
+          </div>
+        </form>
+
+        <div class="register-footer">
+          <p>¿Ya tienes una cuenta? <a href="#" class="login-link">Inicia sesión aquí</a></p>
+        </div>
+      </div>
+    </div>
